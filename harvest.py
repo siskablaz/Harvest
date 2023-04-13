@@ -66,6 +66,7 @@ def print_pairing_info(melon_types):
         
     
 print(print_pairing_info(make_melon_types()))
+
 def make_melon_type_lookup(melon_types):
     """Takes a list of MelonTypes and returns a dictionary of melon type by code."""
     
@@ -149,3 +150,25 @@ def get_sellability_report(melons):
 
 
 get_sellability_report(make_melons(make_melon_type_lookup(make_melon_types())))
+
+
+def melons_from_file(filepath):
+    melons_data = open(filepath)
+    file_melons_list = []
+    file_melons_by_id = make_melon_type_lookup(make_melon_types())
+
+    for line in melons_data:
+        line_data = line.rstrip().split()
+        melon_object = Melon(shape_rating=line_data[1], 
+                             color_rating=line_data[3], 
+                             type=file_melons_by_id[line_data[5]], 
+                             harvest_field=line_data[11], 
+                             harvested_by=line_data[8])
+        file_melons_list.append(melon_object)
+
+    return file_melons_list
+    
+print(melons_from_file('harvest_log.txt'))
+                        
+#  type, shape_rating, color_rating, harvest_field, harvested_by
+# [1 = shape, 3 = color, 5 = Type, 8 = harvested_by, 11 = harvest_field]
